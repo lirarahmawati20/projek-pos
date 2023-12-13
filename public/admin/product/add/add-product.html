@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <!-- <section class="home-section"> -->
+    <div
+      class="wrapper">
+      <div class="inner">
+        <div class="image-holder">
+          <img
+            src="../../../poto/mykpizheuqimafijcwa15spb6zcm9eahbbjlur52yh9yqp6vk6gxkfnk8xk3vp9j-.jpg"
+            alt=""
+          />
+        </div>
+        <div></div>
+        <form name="addstok" id="kolom">
+          <h3>Add Product</h3>
+
+          <label>Product Name</label>
+          <input
+            name="nama"
+            type="text"
+            placeholder="productName"
+            class="form-control"
+          />
+
+          <label>Price</label>
+          <input
+            name="price"
+            type="number"
+            placeholder="productPrice"
+            class="form-control"
+          />
+
+          <label>Stock</label>
+          <input
+            name="stok"
+            type="number"
+            placeholder="product Stock"
+            class="form-control"
+          />
+
+          <label>category</label>
+          <select name="category_name" id="" class="form-control"></select>
+
+          <input
+            type="file"
+            placeholder="image"
+            class="form-control"
+            name="gambar"
+          />
+          <button type="submit">save</button>
+          <div class="back">
+            <a href="../index.html">back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- </section> -->
+  </body>
+</html>
+
+<script>
+  fetch("/api/v1/catogiry")
+    .then((response) => response.json())
+    .then((result) => {
+      let data = result.data;
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement("option");
+        option.value = data[i].id;
+        option.textContent = data[i].name;
+
+        document.querySelector("select").appendChild(option);
+      }
+    });
+
+  document.addstok.onsubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("name", document.addstok.nama.value);
+    data.append("price", document.addstok.price.value);
+    data.append("stok", document.addstok.stok.value);
+    data.append("id_category", document.addstok.category_name.value);
+    data.append("image", document.addstok.gambar.files[0]);
+
+   
+    console.log("data :", data);
+
+    await fetch("/api/v1/product", {
+      method: "POST",
+      body: data,
+    })
+    
+
+
+ .then((response) => response.json())
+      .then((result) => {
+        console.log(result.status);
+        if(result.status === "success"){
+          alert("Tambah produk Berhasil !!");
+          location.href = "../";
+
+        }else{
+          alert(" data harus di isi ");
+        }
+
+      })
+  };
+</script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      class="wrapper">
+      <div class="inner">
+        <div class="image-holder">
+          <img src="../../../poto/Cara-menata-meja-kasir-6.jpg" alt="" />
+        </div>
+        <form name="editKasir">
+          <h3>update</h3>
+
+          <label for="editKasir">Id</label>
+          <input type="text" class="form-control" name="id" disabled />
+
+          <label for="editKasir">name</label>
+          <input
+            type="text"
+            placeholder="nama"
+            class="form-control"
+            name="name"
+          />
+
+          <label for="editKasir">email</label>
+          <input
+            type="email"
+            placeholder="email"
+            class="form-control"
+            name="email"
+          />
+
+          <label for="editKasir">password</label>
+          <input
+            type="password"
+            placeholder="password"
+            class="form-control"
+            name="password"
+          />
+          <button type="submit">update</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const searchParams = new URLSearchParams(location.search);
+
+  url = "/api/v1/kasir/" + searchParams.get("id");
+  console.log(url);
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      data = result.data[0];
+      document.editKasir.id.value = data.id;
+      document.editKasir.name.value = data.name;
+      document.editKasir.email.value = data.email;
+      document.editKasir.password.value = data.password;
+    });
+
+  document.querySelector("button").onclick = async (e) => {
+    e.preventDefault();
+
+    const name = document.editKasir.name.value;
+    const email = document.editKasir.email.value;
+    const password = document.editKasir.password.value;
+
+    await fetch(`/api/v1/kasir/${searchParams.get("id")}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: data,
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
+
+
+   })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.status);
+        if(result.status === "success"){
+          alert("Transaksi Berhasil !!");
+           location.href = "../";
+        }else{
+          alert("Transaksi Gagal");
+        }
+
+      })
+}
+</script>

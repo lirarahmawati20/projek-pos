@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Food</title>
+  <link rel="stylesheet" href="../css/style-kasir.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+  <header>
+    <div class="nav container">
+      <a href="#" class="logo">Restaurant Food</a>
+      <input name="username" type="text"/>
+      <span class="material-symbols-outlined" id="cart-icon" data-quantity="0">local_mall</span>
+    </div>
+    <div class="cart">
+      <h2 class="cart-tittle">Cart</h2>
+      <div class="cart-container">
+        <!-- Cart items will be dynamically added here by JavaScript -->
+      </div>
+      <!-- <div class="total">
+        <div class="total-title">Total</div>
+        <div class="total-price">Rp. 0</div>
+      </div> -->
+      <button type="button" class="btn-buy">Check Out</button>
+      <span class="material-symbols-outlined" id="close-cart">close</span>
+    </div>
+  </header>
+
+
+    <!-- produc -->
+    <section class="shop container">
+      <h2 class="section-title">Shop food</h2>
+      <!-- shop conten -->
+      <div class="shop-content" id ="shop-content">
+
+      </div>
+    </section>
+
+
+       <div class="menu-menu">
+           <div class="product-menu">
+          <img src="../poto/aneka-minuman-segar.webp"alt="" class="product-img"/><br>
+          <button id="menu-produk">Minuman </button>
+          </div>
+
+           <div class="product-menu">
+          <img src="../poto/pngtree-chef-food-png-image_5606792.jpg"alt="" class="product-img"/><br>
+          <button id="menu-produk">Makanan </button>
+          </div>
+
+           <div class="product-menu">
+          <img src="../poto/hipwee-6bbeb7_07ec340fdf7741419f155ac14ad8423c_mv2.png"alt="" class="product-img"/><br>
+          <button id="menu-produk">sifood</button>
+          </div>
+      
+       </div>
+
+    
+     
+  </body>
+</html>
+  <script>
+    fetch("/api/v1/product")
+      .then((response) => response.json())
+      .then((result) => {
+        let data = result.data;
+        for (let i = 0; i < data.length; i++) {
+          const nomor = 1 + i;
+          const dv = document.createElement("div");
+          dv.className= "product-box"
+  
+          const image = document.createElement("img");
+          image.src = `/images/${data[i].image}`;
+          image.className = "product-img";
+
+          dv.appendChild(image);
+
+          const spn = document.createElement("span");
+          spn.className ="price"
+          spn.textContent = "Rp. "+data[i].price;
+          dv.appendChild(spn);
+
+          const spn1 = document.createElement("span");
+          spn1.className ="material-symbols-outlined add-cart"
+          spn1.textContent = "local_mall";
+          spn1.nodeValue = data[i].id;
+          spn1.onclick = function() {addToCart(data[i])};
+          dv.appendChild(spn1);
+  
+          document.querySelector("#shop-content").appendChild(dv);
+        }
+      });
+
+     
+let cartIcon = document.querySelector("#cart-icon");
+let cart = document.querySelector(".cart");
+let closeCart = document.querySelector("#close-cart");
+
+let cartQuantity = parseInt(cartIcon.getAttribute("data-quantity"));
+
+let totalAmount = 0;
+
+// Open cart
+cartIcon.onclick = () => {
+  cart.classList.add("cart-active");
+  updateCartDetails();
+};
+
+// Close cart
+closeCart.onclick = () => {
+  cart.classList.remove("cart-active");
+};
+
+
+  let addCartButtons = document.getElementsByClassName("add-cart");
+  for (let i = 0; i < addCartButtons.length; i++) {
+    let button = addCartButtons[i];
+    button.addEventListener("click", addToCart);
+  }
+
+  updateCartIcon();
+
+
+function addToCart(data) {
+   let productName = data.name;
+   let productPrice = data.price;
+   cartQuantity++;
+  updateCartIcon();
+
+  let cartContainer = document.querySelector(".cart-container");
+
+  let cartItem = document.createElement("div");
+  cartItem.classList.add("cart-box");
+
+  let cartImg = document.createElement("img");
+  cartImg.src = "/images/"+data.image;
+  cartImg.alt = "";
+  cartImg.classList.add("cart-img");
+  cartItem.appendChild(cartImg);
+
+  let detailBox = document.createElement("div");
+  detailBox.classList.add("detail-box");
+
+  let cartProductTitle = document.createElement("div");
+  cartProductTitle.classList.add("cart-product-title");
+  cartProductTitle.textContent = productName;
+  detailBox.appendChild(cartProductTitle);
+
+  let cartProductId = document.createElement("span");
+  cartProductId.classList.add("cart-product-id");
+  cartProductId.textContent = data.id;
+  cartProductId.hidden = true;
+  detailBox.appendChild(cartProductId);
+
+  let cartProductPrice = document.createElement("div");
+  cartProductPrice.classList.add("cart-price");
+  cartProductPrice.textContent = productPrice;
+  detailBox.appendChild(cartProductPrice);
+
+  let cartQuantityInput = document.createElement("input");
+  cartQuantityInput.type = "number";
+  cartQuantityInput.name = "";
+  cartQuantityInput.id = "";
+  cartQuantityInput.value = "1";
+  cartQuantityInput.classList.add("cart-quantity");
+  detailBox.appendChild(cartQuantityInput);
+
+  cartItem.appendChild(detailBox);
+
+  let cartRemove = document.createElement("span");
+  cartRemove.classList.add("material-symbols-outlined");
+  cartRemove.id = "cart-remove";
+  cartRemove.textContent = "delete";
+  cartRemove.addEventListener("click", removeCartItem);
+  cartItem.appendChild(cartRemove);
+
+  cartContainer.appendChild(cartItem);
+
+  totalAmount += productPrice;
+  updateTotal();
+  updateCartDetails();
+}
+
+function removeCartItem(event) {
+  cartQuantity--;
+  updateCartIcon();
+
+  let cartItem = event.target.closest(".cart-box");
+  let productPrice = parseFloat(cartItem.querySelector(".cart-price").textContent);
+  cartItem.remove();
+
+  totalAmount -= productPrice;
+  updateTotal();
+  updateCartDetails();
+}
+
+function updateCartIcon() {
+  cartIcon.setAttribute("data-quantity", cartQuantity);
+}
+
+function updateTotal() {
+  let totalElement = document.querySelector(".total-price");
+  totalElement.textContent = `Rp. ${totalAmount}`;
+}
+
+function updateCartDetails() {
+  let cartDetails = document.getElementById("cart-details");
+
+  if (!cartDetails) {
+    cartDetails = document.createElement("div");
+    cartDetails.id = "cart-details";
+    cart.appendChild(cartDetails);
+  }
+
+  while (cartDetails.firstChild) {
+    cartDetails.removeChild(cartDetails.firstChild);
+  }
+
+  let cartItems = document.querySelectorAll(".cart-box");
+} 
+
+document.querySelector(".btn-buy").onclick = async (e) => {
+      e.preventDefault();
+      const data = [];
+      let cartItems = document.querySelectorAll(".cart-box");
+      let i =0;
+      let amount =0;
+      let total_price = 0;
+      cartItems.forEach((cartItem) => {
+        let productQuantity = parseInt(cartItem.querySelector(".cart-quantity").value);
+        let productId = parseInt(cartItem.querySelector(".cart-product-id").textContent);
+        let productPrice = parseInt(cartItem.querySelector(".cart-price").textContent);
+        let productTitle = cartItem.querySelector(".cart-product-title").textContent;
+        amount = amount+productQuantity;
+        price = productQuantity*productPrice;
+        total_price = total_price+price;
+        const detail = {
+          id: productId,
+          quatity: productQuantity,
+          name :productTitle,
+          price : productPrice,
+          total_price:price
+
+        };
+        data[i] = detail;
+        i =i+1;
+        //location.reload();
+      })
+      await fetch("/api/v1/transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+         body: JSON.stringify({ 
+          data,
+          amount,
+          total_price  
+        }),
+      })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.status);
+        if(result.status === "success"){
+          alert("Transaksi Berhasil !!");
+          location.reload();
+        }else{
+          alert("Transaksi Gagal");
+        }
+
+      });
+}
+
+  </script>
+  
+  
+
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style-login.css" />
+    <link rel="shortcut icon" href="#" />
+    <title>Login</title>
+  </head>
+  <body>
+            <div
+        class="wrapper"
+        style="background-image: url('../../poto/resto-alfresco.jpg')"
+      >
+        <div class="inner">
+          <div class="image-holder">
+            <img src="../../poto/resto-alfresco.jpg" alt="" />
+          </div>
+
+      <form name="login">
+              <h3>Login Here</h3>
+
+        <label for="login">email</label>
+        <input name="username" type="text" placeholder=" Input Username"  class="form-control"/>
+        <label for="login">password</label>
+        <input
+          name="password"
+          type="password"
+          placeholder=" Input Password"
+        class="form-control" />
+        <button id="submit">submit</button>
+      </form>
+    </div>
+  </body>
+
+  <script>
+ nj 
+      const email = document.login.username.value;
+      const password = document.login.password.value;
+      await fetch("/api/v1/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.status === "success"){
+              if(data.data.role == "SUPPER_ADMIN"){
+                location.href = "/admin";
+              }else{
+                location.href = "/kasir";
+              }   
+          }else{
+              document.login.username.value = "";
+              document.login.password.value = "";
+              location.reload()          
+          }
+      });
+    };
+  </script>
+</html>

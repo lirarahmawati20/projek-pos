@@ -1,0 +1,420 @@
+/* Googlefont Poppins CDN Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 240px;
+    background: #1e1e2a;
+    transition: all 0.5s ease;
+}
+
+.sidebar.active {
+    width: 60px;
+}
+
+.sidebar .logo-details {
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .logo-details i {
+    font-size: 28px;
+    font-weight: 500;
+    color: #fff;
+    min-width: 60px;
+    text-align: center
+}
+
+.sidebar .logo-details .logo_name {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.sidebar .nav-links {
+    margin-top: 10px;
+}
+
+.sidebar .nav-links li {
+    position: relative;
+    list-style: none;
+    height: 50px;
+}
+
+.sidebar .nav-links li a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+}
+
+.sidebar .nav-links li a.active {
+    background: #b8a5df;
+
+}
+
+.sidebar .nav-links li i {
+    min-width: 60px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+}
+
+.sidebar .nav-links li a .links_name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.sidebar .nav-links .log_out {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.logout {
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.home-section {
+    position: relative;
+    background: #ffffff;
+    min-height: 100vh;
+    width: calc(100% - 240px);
+    left: 240px;
+    transition: all 0.5s ease;
+}
+
+
+
+
+.sidebar.active~.home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+.home-section nav {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    background: #1e1e2a;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: calc(100% - 240px);
+    left: 240px;
+    z-index: 100;
+    padding: 0 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+    color: #EFEEF1;
+}
+
+.sidebar.active~.home-section nav {
+    left: 60px;
+    width: calc(100% - 60px);
+}
+
+.home-section nav .sidebar-button {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+.home-section nav .profile-details {
+    display: flex;
+    align-items: center;
+    background: #a0aee8;
+    border: 2px solid #726390;
+    border-radius: 6px;
+    height: 50px;
+    min-width: 190px;
+    padding: 0 15px 0 2px;
+}
+
+nav .profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+nav .profile-details .admin_name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+nav .profile-details i {
+    font-size: 25px;
+    color: #333;
+}
+
+.home-section .home-content {
+    position: relative;
+    padding-top: 104px;
+}
+
+
+/* Responsive Media Query */
+@media (max-width: 1240px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar.active {
+        width: 220px;
+    }
+
+    .home-section {
+        width: calc(100% - 60px);
+        left: 60px;
+    }
+
+    .sidebar.active~.home-section {
+        width: calc(100% - 220px);
+        overflow: hidden;
+        left: 220px;
+    }
+
+    .home-section nav {
+        width: calc(100% - 60px);
+        left: 60px;
+    }
+
+    .sidebar.active~.home-section nav {
+        width: calc(100% - 220px);
+        left: 220px;
+    }
+}
+
+
+@media (max-width: 1000px) {
+    .overview-boxes .box {
+        width: calc(100% / 2 - 15px);
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 780px) {
+    .home-section .box-1 {
+        /* width: calc(100% - 0px); */
+        left: 60px;
+        display: flex;
+    }
+
+    .sidebar.active~.home-section {
+        overflow: hidden;
+        left: 220px;
+    }
+
+    .home-section nav {
+        width: calc(100% - 60px);
+        left: 60px;
+        display: flex
+    }
+
+    .sidebar.active~.home-section nav {
+        width: calc(100% - 220px);
+        left: 220px;
+    }
+
+    .home-content {
+        display: flex;
+    }
+
+
+}
+
+
+@media (max-width: 700px) {
+
+    nav .sidebar-button .dashboard,
+    nav .profile-details .admin_name,
+    nav .profile-details i {
+        display: flex;
+    }
+
+    .home-section nav .profile-details {
+        height: 50px;
+        min-width: 40px;
+    }
+
+    .home-content .sales-boxes .sales-details {
+        width: 560px;
+    }
+
+
+}
+
+
+@media (max-width: 550px) {
+    .overview-boxes {
+        width: 100%;
+        background-color: #f9fafb;
+
+    }
+
+    .sidebar.active~.home-section nav .profile-details {
+        display: flex;
+
+    }
+}
+
+
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL'0,
+        'wght'900,
+        'GRAD'0,
+        'opsz'299
+}
+
+
+.dataTransaksi {
+    background-color: #b8a5df;
+    margin-left: 50px;
+    width: 90%;
+    height: 90%;
+    size: 40px;
+    padding: 60px;
+    color: #1e1e2a;
+    border-radius: 10px;
+}
+
+.home-content .data {
+    background-color: #c2c5c7;
+    margin-left: 50px;
+    margin: 4px;
+    padding: 25px;
+    width: 90%;
+    margin-top: 40px;
+}
+
+.home-content table {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.home-content th,
+.home-content td {
+    border: 5px solid #1e1e2a;
+    padding: 8px;
+    text-align: left;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.home-content th {
+    background: #1e1e2a;
+    color: #ffffff;
+
+}
+
+
+.home-content a .bx {
+    background-color: #ffffff;
+    font-size: 40px;
+    padding: 2px;
+    margin: 2px;
+}
+
+
+.home-content a .bx:hover {
+    cursor: pointer;
+    color: rgb(255, 0, 64);
+    /* Warna yang diinginkan ketika dihover */
+}
+
+* table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 70px;
+    margin-left: 50px;
+}
+
+th,
+td {
+    border: 7px solid #1e1e2a;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #1e1e2a;
+}
+
+
+tr:nth-child(odd) {
+    color: #fff;
+    background-color: #af98dd;
+    /* warna merah untuk baris ganjil */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+tr:nth-child(even) {
+    background-color: #1e1e2a;
+    /* warna ungu untuk baris genap */
+    color: #ffffff;
+}
+
+.home-section button {
+    color: #f4f6f7;
+    background: #1e1e2a;
+    width: 110px;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-left: 50px;
+}
+
+.home-section button:hover {
+    background: #d7dce5;
+    color: #4b4545;
+}
+
+
+@media screen and (max-width: 600px) {
+    table {
+        overflow-x: auto;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    .dataTransaksi {
+        margin-left: 50px;
+        width: auto;
+        height: auto;
+        size: 10px;
+        padding: auto;
+        color: #ffffff;
+
+    }
+}

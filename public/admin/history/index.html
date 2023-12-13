@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+<i class='bx bx-bowl-hot'></i>        
+            <span class="logo_name">Restaurant</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="../index.html" class="active">
+                   <i class='bx bxs-grid' ></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            
+           
+            <li>
+                <a href="../product/">
+               <i class='bx bxs-component'></i>
+                   <span class="links_name">Product</span>
+                </a>
+            </li>
+            <li>
+                <a href="../data-kasir/">
+                   <i class='bx bxs-user-plus'></i>
+                    <span class="links_name">Data kasir</span>
+                </a>
+            </li>
+
+             <li>
+                <a href="./index.html">
+               <i class='bx bx-history'></i>
+                    <span class="links_name">history</span>
+                </a>
+            </li>
+            <li>
+                <a href="/login">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">logout</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+    <section class="home-section">
+        <nav>
+            <div class="sidebar-button  sidebarBtn">
+                <i class='bx bxs-user-circle'></i>
+                <span class="dashboard">history</span>
+            </div>
+         </nav>
+        
+  <div class="home-content">
+
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>tanggal</th>
+                <th>no_transaction</th>
+                <th>total_price</th>
+                <th>total_product </th>
+                <th>details</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+        </tbody>
+    </table>
+  </div>
+    </section>
+
+     <footer>
+        Copyright
+          <p>&copy; 2023 lira rahmawati</p>
+        </footer>
+</body>
+
+</html>
+
+<script>
+fetch("/api/v1/transaction")
+  .then((response) => response.json())
+  .then((result) => {
+    let data = result.data;
+    for (let i = 0; i < data.length; i++) {
+      const nomor = i + 1;
+      const tr = document.createElement("tr");
+
+      const tdId = document.createElement("td");
+      tdId.textContent = data[i].id;
+      tr.appendChild(tdId);
+
+      const tdTanggal = document.createElement("td");
+      tdTanggal.textContent = data[i].tanggal; 
+      tr.appendChild(tdTanggal);
+
+      const tdNoTransaction = document.createElement("td");
+      tdNoTransaction.textContent = data[i].no_transaction; 
+      tr.appendChild(tdNoTransaction);
+
+      const tdTotalPrice = document.createElement("td");
+      tdTotalPrice.textContent = data[i].total_price; 
+      tr.appendChild(tdTotalPrice);
+
+      const tdTotalProduct = document.createElement("td");
+      tdTotalProduct.textContent = data[i].total_product; 
+      tr.appendChild(tdTotalProduct);
+
+
+      const tdDetails = document.createElement("td");
+      const anchorDetails = document.createElement("a");
+      const iconDetails = document.createElement("i");
+
+    //   <i class='bx bxs-detail'></i>
+      iconDetails.classList.add("bx", "bxs-detail");
+      anchorDetails.appendChild(iconDetails);
+      anchorDetails.href = `./detail?id=${data[i].id}`; 
+      tdDetails.appendChild(anchorDetails);
+      tr.appendChild(tdDetails);
+
+      document.querySelector("tbody").appendChild(tr);
+    }
+  });
+</script>
